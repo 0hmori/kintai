@@ -1,67 +1,56 @@
-import pandas as pd
-from datetime import datetime
-from datetime import timedelta
-from datetime import timezone
-import gspread
-from oauth2client.service_account import ServiceAccountCredentials
+from flask import Flask, request, abort
+
+from linebot.v3 import WebhookHandler
+from linebot.v3.exceptions import InvalidSignatureError
+from linebot.v3.messaging import Configuration, ApiClient, MessagingApi, ReplyMessageRequest, TextMessage
+from linebot.v3.webhooks import MessageEvent, TextMessageContent
+
 import os
 
-JST = timezone(timedelta(hours=+9), "JST")
+app = Flask(__name__)
+
+YOUR_CHANNEL_ACCESS_TOKEN = "OoB9ut4VSSLf3KdTqtQB2Ipw56UR3b/2Fs1HpdsonnSsW6eUDnLohABExT++Z8KsEP+xXHrCwPgRr/pAFeeSMWc/k5qD2sTxqd1sPHOyvRGYXzXoTbZgzjC27ka5c95hytOobbTcYgUrLUPeaG9LwwdB04t89/1O/w1cDnyilFU="
+YOUR_CHANNEL_SECRET = "c873c48a14dcbb1633f938da547b5c48"
+
+configuration = Configuration(YOUR_CHANNEL_ACCESS_TOKEN)
+handler = WebhookHandler(YOUR_CHANNEL_SECRET)
 
 
-# 認証の流れ
-def auth():
-    SP_CREDENTIAL_FILE = "secret.json"
-    SP_SCOPE = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-
-    SP_SHEET_KEY = "1yrOkKh-vKTkRagXXGdHtFKG0TCfsOsrPTEssGVCVTFc"
-    SP_SHEET = "timesheet"
-
-    credentials = ServiceAccountCredentials.from_json_keyfile_name(SP_CREDENTIAL_FILE, SP_SCOPE)
-    gc = gspread.authorize(credentials)
-
-    worksheet = gc.open_by_key(SP_SHEET_KEY).worksheet(SP_SHEET)
-    return worksheet
+@app.route("/")
+def hello_world():
+    return "hello きんたい"
 
 
-def punch_in():  # 出勤時間
-    worksheet = auth()
-    # df1 = pd.DataFrame(worksheet.get_all_values())
-    df1 = pd.DataFrame(worksheet.get_all_records())
-    # print(df1)
+@app.route("/callback", methods=["POST"])
+def callback():
+    # get X-Line-Signature header value
+    signature = request.headers["X-Line-Signature"]
 
-    timestamp = datetime.now(JST)
+    # get request body as text
+    body = request.get_data(as_text=True)
+    app.logger.info("Request body: " + body)
 
-    date = timestamp.strftime("%Y/%m/%d")
-    # print(date)
-    punch_in = timestamp.strftime("%H:%M")
-    # print(punch_in)
+    # handle webhook body
+    try:
+        handler.handle(body, signature)
+    except InvalidSignatureError:
+        app.logger.info("Invalid signature. Please check your channel access token/channel secret.")
+        abort(400)
 
-    df2 = pd.DataFrame(data=[{"日付": date, "出勤時間": punch_in, "退勤時間": "00:00"}])
-    # print(df2)
-
-    # print(pd.concat([df1, df2]))
-    df = pd.concat([df1, df2], ignore_index=True)
-
-    worksheet.update([df.columns.values.tolist()] + df.values.tolist())
-    # ここまででスプレッドシートに追加部分
-    print("出勤登録完了しました")
+    return "OK"
 
 
-def punch_out():  # 退勤時間
-    worksheet = auth()
-    df1 = pd.DataFrame(worksheet.get_all_records())
-
-    timestamp = datetime.now(JST)
-
-    punch_out = timestamp.strftime("%H:%M")
-
-    # print(punch_out)
-    df1.iloc[-1, 2] = punch_out
-    worksheet.update([df1.columns.values.tolist()] + df1.values.tolist())
-
-    print("退勤登録完了しました")
+@handler.add(MessageEvent, message=TextMessageContent)
+def handle_message(event):
+    with ApiClient(configuration) as api_client:
+        line_bot_api = MessagingApi(api_client)
+        line_bot_api.reply_message_with_http_info(
+            ReplyMessageRequest(
+                reply_token=event.reply_token, messages=[TextMessage(text=event.message.text)]
+            )
+        )
 
 
-# punch_in() #動作確認OK！
-# punch_out() #動作確認OK！
+if __name__ == "__main__":
+    port = os.getenv("POST")  # このへんよくわからない、追加したコード
+    app.run(host="0.0.0.0", port=port)  # これももとは()内がなかった
