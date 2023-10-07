@@ -1,9 +1,79 @@
+# LINEBot
 import os
 from flask import Flask, request, abort
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage, TextSendMessage
 from dotenv import load_dotenv
+
+# スプレッドシート
+import pandas as pd
+from datetime import datetime
+from datetime import timedelta
+from datetime import timezone
+import gspread
+from oauth2client.service_account import ServiceAccountCredentials
+
+JST = timezone(timedelta(hours=+9), "JST")
+
+
+# 認証の流れ
+def auth():
+    SP_CREDENTIAL_FILE = "secret.json"
+    SP_SCOPE = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+
+    SP_SHEET_KEY = "1yrOkKh-vKTkRagXXGdHtFKG0TCfsOsrPTEssGVCVTFc"
+    SP_SHEET = "timesheet"
+
+    credentials = ServiceAccountCredentials.from_json_keyfile_name(SP_CREDENTIAL_FILE, SP_SCOPE)
+    gc = gspread.authorize(credentials)
+
+    worksheet = gc.open_by_key(SP_SHEET_KEY).worksheet(SP_SHEET)
+    return worksheet
+
+
+def punch_in():  # 出勤時間
+    worksheet = auth()
+    # df1 = pd.DataFrame(worksheet.get_all_values())
+    df1 = pd.DataFrame(worksheet.get_all_records())
+    # print(df1)
+
+    timestamp = datetime.now(JST)
+
+    date = timestamp.strftime("%Y/%m/%d")
+    # print(date)
+    punch_in = timestamp.strftime("%H:%M")
+    # print(punch_in)
+
+    df2 = pd.DataFrame(data=[{"日付": date, "出勤時間": punch_in, "退勤時間": "00:00"}])
+    # print(df2)
+
+    # print(pd.concat([df1, df2]))
+    df = pd.concat([df1, df2], ignore_index=True)
+
+    worksheet.update([df.columns.values.tolist()] + df.values.tolist())
+    # ここまででスプレッドシートに追加部分
+    print("出勤登録完了しました")
+
+
+def punch_out():  # 退勤時間
+    worksheet = auth()
+    df1 = pd.DataFrame(worksheet.get_all_records())
+
+    timestamp = datetime.now(JST)
+
+    punch_out = timestamp.strftime("%H:%M")
+
+    # print(punch_out)
+    df1.iloc[-1, 2] = punch_out
+    worksheet.update([df1.columns.values.tolist()] + df1.values.tolist())
+
+    print("退勤登録完了しました")
+
+
+# punch_in() #動作確認OK！
+# punch_out() #動作確認OK！
+
 
 # from chat import chat_completion #openaiを使うとき
 
@@ -80,10 +150,21 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
+    if event.message.text == "出勤":
+        punch_in()
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text="出勤登録完了しました！"))
+
+    elif event.message.text == "退勤":
+        punch_out()
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text="退勤登録完了しました！"))
+
+    else:
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text="こちらは出退勤を管理するBotです。"))
+
     #    reply_message = chat_completion(event.message.text)
-    text = "ぽめらにあん"
-    #event.message.text
-    line_bot_api.reply_message(event.reply_token, TextSendMessage(text=text))
+    # text = "ぽめらにあん"  TextSendMessage(text=text)) 次にこうした
+    # text = event.message.text まずこれをやった。送られたメッセージをそのまま送り返す
+    line_bot_api.reply_message(event.reply_token, TextSendMessage(text=event.message.text))
 
 
 # def handle_message(event):
