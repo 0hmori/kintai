@@ -6,7 +6,8 @@ from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage, TextSendMessage
 from dotenv import load_dotenv
 
-from kintai import punch_in, punch_out
+from kintai import punch_in
+from kintai import punch_out
 
 
 # from chat import chat_completion #openaiを使うとき
