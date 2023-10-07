@@ -98,7 +98,7 @@ def handle_message(event):
     #    reply_message = chat_completion(event.message.text)
     # text = "ぽめらにあん"  TextSendMessage(text=text)) 次にこうした
     # text = event.message.text まずこれをやった。送られたメッセージをそのまま送り返す
-    line_bot_api.reply_message(event.reply_token, TextSendMessage(text=event.message.text))
+    # line_bot_api.reply_message(event.reply_token, TextSendMessage(text=event.message.text))
 
 
 # def handle_message(event):
