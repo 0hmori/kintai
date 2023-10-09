@@ -24,7 +24,7 @@ def auth():
     return worksheet
 
 
-def punch_in():  # 出勤時間
+def punch_in():  # 出勤
     worksheet = auth()
 
     df1 = pd.DataFrame(worksheet.get_all_records())  # get_all_values()だと動作できず
