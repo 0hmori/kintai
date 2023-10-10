@@ -1,8 +1,8 @@
-import pandas as pd
+# import pandas as pd
 import datetime
 from datetime import timedelta
 from datetime import timezone
-from oauth2client.service_account import ServiceAccountCredentials
+# from oauth2client.service_account import ServiceAccountCredentials
 import schedule
 
 
@@ -12,6 +12,7 @@ from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage, TextSendMessage
 from dotenv import load_dotenv
+import time
 
 JST = timezone(timedelta(hours=+9), "JST")
 
@@ -90,11 +91,11 @@ def rimind_punch_in():
 # print(rimind_punch_in())  # このコードでメッセージのみ表示できてるから大丈夫そう？
 
 if __name__ == "__main__":
-    schedule.every().monday.at("8:30").do(rimind_punch_in)
-    schedule.every().tuesday.at("8:30").do(rimind_punch_in)
-    schedule.every().wednesday.at("8:30").do(rimind_punch_in)
-    schedule.every().thursday.at("8:30").do(rimind_punch_in)
-    schedule.every().friday.at("8:30").do(rimind_punch_in)
+    schedule.every().monday.at("08:30").do(rimind_punch_in)
+    schedule.every().tuesday.at("08:30").do(rimind_punch_in)
+    schedule.every().wednesday.at("08:30").do(rimind_punch_in)
+    schedule.every().thursday.at("08:30").do(rimind_punch_in)
+    schedule.every().friday.at("08:30").do(rimind_punch_in)
 
     while True:
         schedule.run_pending()
