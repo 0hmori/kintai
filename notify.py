@@ -37,10 +37,10 @@ class LINE_Notify:
         )
 
 
-if __name__ == "__main__":
-    LINE_Notify = LINE_Notify()
-    LINE_Notify.Sent_Message("テストメッセージだよ！！")
-    # エラーが出るけど実行できる
+# if __name__ == "__main__":
+#    LINE_Notify = LINE_Notify()
+#    LINE_Notify.Sent_Message("テストメッセージだよ！！")
+# エラーが出るけど実行できる
 
 
 locale.setlocale(locale.LC_TIME, "ja_JP.UTF-8")
@@ -69,13 +69,12 @@ def rimind_punch_in():
     return message  # なんで赤波線が出るのか…
 
 
-def main():
-    LINE_Notify = LINE_Notify()
-    message = rimind_punch_in()
-
-
 if __name__ == "__main__":
-    schedule.every().day.at("07:05").do(main)
+    schedule.every().monday.at("08:30").do(rimind_punch_in)
+    schedule.every().tuesday.at("08:30").do(rimind_punch_in)
+    schedule.every().wednesday.at("08:30").do(rimind_punch_in)
+    schedule.every().thursday.at("07:30").do(rimind_punch_in)
+    schedule.every().friday.at("08:30").do(rimind_punch_in)
 
     while True:
         schedule.run_pending()
