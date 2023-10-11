@@ -94,7 +94,7 @@ if __name__ == "__main__":
     schedule.every().monday.at("08:30").do(rimind_punch_in)
     schedule.every().tuesday.at("08:30").do(rimind_punch_in)
     schedule.every().wednesday.at("08:30").do(rimind_punch_in)
-    schedule.every().thursday.at("05:47").do(rimind_punch_in)
+    schedule.every().thursday.at("06:00").do(rimind_punch_in)
     schedule.every().friday.at("08:30").do(rimind_punch_in)
 
     while True:
@@ -139,7 +139,7 @@ if __name__ == "__main__":
     schedule.every().monday.at("17:30").do(rimind_punch_out)
     schedule.every().tuesday.at("17:30").do(rimind_punch_out)
     schedule.every().wednesday.at("17:30").do(rimind_punch_out)
-    schedule.every().thursday.at("05:49").do(rimind_punch_out)
+    schedule.every().thursday.at("06:01").do(rimind_punch_out)
     schedule.every().friday.at("17:30").do(rimind_punch_out)
 
     while True:
