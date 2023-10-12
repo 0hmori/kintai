@@ -55,9 +55,9 @@ Today = datetime.datetime.now()
 week_num = Today.weekday()
 w_list = ["月曜日", "火曜日", "水曜日", "木曜日", "金曜日", "土曜日", "日曜日"]
 
-## print(Today,  week_num,  w_list[week_num]) 実行OK
-#
-#
+# print(Today,  week_num,  w_list[week_num]) 実行OK
+
+# メッセージ送られず↓
 # @app.route("/rimind_punch_in")
 # def rimind_punch_in():
 #    if week_num == 0:
@@ -93,7 +93,7 @@ w_list = ["月曜日", "火曜日", "水曜日", "木曜日", "金曜日", "土�
 #    return message  # なんで赤波線が出るのか…
 
 
-# rimind_punch_in()  # 動作確認OK！
+# rimind_punch_in()  # 動作確認はOK！
 
 
 def rimind_punch_in():
