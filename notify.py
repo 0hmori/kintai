@@ -7,7 +7,7 @@ import time
 
 def send_line_notify(notification_message):
     # LINEに通知する
-    line_notify_token = LineNotify(os.environ["Line_Notify_Token"])
+    line_notify_token = "lZGbtwZUGrxRQy3Df8vdRgdwwby8u9FuofvfwGE8qod"
     line_notify_api = "https://notify-api.line.me/api/notify"
     headers = {"Authorization": f"Bearer {line_notify_token}"}
     data = {"message": "\n" + notification_message}
@@ -58,7 +58,7 @@ if __name__ == "__main__":
     schedule.every().monday.at("08:30").do(rimind_punch_in)
     schedule.every().tuesday.at("08:30").do(rimind_punch_in)
     schedule.every().wednesday.at("08:30").do(rimind_punch_in)
-    schedule.every().thursday.at("19:36").do(rimind_punch_in)
+    schedule.every().thursday.at("19:45").do(rimind_punch_in)
     schedule.every().friday.at("08:30").do(rimind_punch_in)
 
     while True:
