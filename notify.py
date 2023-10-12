@@ -14,8 +14,8 @@ def send_line_notify(notification_message):
     requests.post(line_notify_api, headers=headers, data=data)
 
 
-if __name__ == "__main__":
-    send_line_notify("LiNEに通知する")
+# if __name__ == "__main__":
+#    send_line_notify("LiNEに通知する")
 
 
 locale.setlocale(locale.LC_TIME, "ja_JP.UTF-8")
@@ -29,36 +29,32 @@ w_list = ["月曜日", "火曜日", "水曜日", "木曜日", "金曜日", "土�
 def rimind_punch_in():
     if week_num == 0:
         message = "おはようございます！今日は月曜日です。出勤登録をお願いします"
-        send_line_notify(message)
 
     elif week_num == 1:
         message = "おはようございます！今日は火曜日です。出勤登録をお願いします"  # 動作確認用。動作OK！print(rimind_punch_in())ではこのメッセージのみ出せた
-        send_line_notify(message)
 
     elif week_num == 2:
         message = "おはようございます！今日は水曜日です。出勤登録をお願いします"  # 動作確認用。動作OK！print(rimind_punch_in())ではこのメッセージのみ出せた
-        send_line_notify(message)
 
     elif week_num == 3:
         message = "おはようございます！今日は木曜日です。出勤登録をお願いします"  # 動作確認用。動作OK！print(rimind_punch_in())ではこのメッセージのみ出せた
-        send_line_notify(message)
 
     elif week_num == 4:
         message = "おはようございます！今日は金曜日です。出勤登録をお願いします"  # 動作確認用。動作OK！print(rimind_punch_in())ではこのメッセージのみ出せた
-        send_line_notify(message)
 
     else:
         pass
 
     # print(w_list[week_num], message) 実行OK
-    return message  # なんで赤波線が出るのか…
+    # return message  # なんで赤波線が出るのか…
+    send_line_notify(message)
 
 
 if __name__ == "__main__":
     schedule.every().monday.at("08:30").do(rimind_punch_in)
     schedule.every().tuesday.at("08:30").do(rimind_punch_in)
     schedule.every().wednesday.at("08:30").do(rimind_punch_in)
-    schedule.every().thursday.at("19:45").do(rimind_punch_in)
+    schedule.every().thursday.at("20:00").do(rimind_punch_in)
     schedule.every().friday.at("08:30").do(rimind_punch_in)
 
     while True:
