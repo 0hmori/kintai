@@ -35,6 +35,7 @@ handler = WebhookHandler(os.environ["CHANNEL_SECRET"])
 #
 #    return "OK"
 
+
 @app.route("/callback", methods=["GET", "POST"])
 def callback():
     signature = request.headers["X-Line-Signature"]
@@ -94,6 +95,16 @@ def rimind_punch_in():
 
 # rimind_punch_in()  # 動作確認OK！
 
+
+#@app.route("/push_sample")
+#def push_sample():
+#    """プッシュメッセージを送る"""
+#    user_id = os.environ["USER_ID"]
+#    line_bot_api.push_message(user_id, TextSendMessage(rimind_punch_in()))
+#
+#    return "OK"
+#
+
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
@@ -104,7 +115,7 @@ if __name__ == "__main__":
     schedule.every().tuesday.at("08:30").do(rimind_punch_in)
     schedule.every().wednesday.at("08:30").do(rimind_punch_in)
     schedule.every().thursday.at("08:30").do(rimind_punch_in)
-    schedule.every().friday.at("06:40").do(rimind_punch_in)
+    schedule.every().friday.at("06:47").do(rimind_punch_in)
 
     while True:
         schedule.run_pending()
