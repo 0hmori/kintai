@@ -92,7 +92,11 @@ def rimind_punch_in():
     return message  # なんで赤波線が出るのか…
 
 
-#rimind_punch_in()  # 動作確認OK！
+# rimind_punch_in()  # 動作確認OK！
+
+if __name__ == "__main__":
+    port = int(os.getenv("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
 
 
 if __name__ == "__main__":
@@ -100,7 +104,7 @@ if __name__ == "__main__":
     schedule.every().tuesday.at("08:30").do(rimind_punch_in)
     schedule.every().wednesday.at("08:30").do(rimind_punch_in)
     schedule.every().thursday.at("08:30").do(rimind_punch_in)
-    schedule.every().friday.at("06:32").do(rimind_punch_in)
+    schedule.every().friday.at("06:40").do(rimind_punch_in)
 
     while True:
         schedule.run_pending()
