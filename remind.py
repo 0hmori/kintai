@@ -57,7 +57,9 @@ w_list = ["月曜日", "火曜日", "水曜日", "木曜日", "金曜日", "土�
 
 # print(Today,  week_num,  w_list[week_num]) 実行OK
 
-# メッセージ送られず↓
+
+# rimind_punch_in関数のなかに、LINEに送るコードを入れた。メッセージ送られず↓
+
 # @app.route("/rimind_punch_in")
 # def rimind_punch_in():
 #    if week_num == 0:
@@ -93,9 +95,10 @@ w_list = ["月曜日", "火曜日", "水曜日", "木曜日", "金曜日", "土�
 #    return message  # なんで赤波線が出るのか…
 
 
-# rimind_punch_in()  # 動作確認はOK！
+# rimind_punch_in()  # 動作はOK！
 
 
+# push_sample()にrimind_punch_in関数を入れた。動作せず
 def rimind_punch_in():
     if week_num == 0:
         message = "おはようございます！今日は月曜日です。出勤登録をお願いします"
@@ -121,6 +124,7 @@ def push_sample():
     line_bot_api.push_message(user_id, TextSendMessage(rimind_punch_in()))
 
     return "OK"
+
 
 
 if __name__ == "__main__":
