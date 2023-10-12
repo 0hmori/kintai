@@ -100,7 +100,7 @@ if __name__ == "__main__":
     schedule.every().tuesday.at("08:30").do(rimind_punch_in)
     schedule.every().wednesday.at("08:30").do(rimind_punch_in)
     schedule.every().thursday.at("08:30").do(rimind_punch_in)
-    schedule.every().friday.at("06:27").do(rimind_punch_in)
+    schedule.every().friday.at("06:32").do(rimind_punch_in)
 
     while True:
         schedule.run_pending()
