@@ -25,7 +25,7 @@ if __name__ == "__main__":
 #    def __init__(self):
 #        # LINE_Notify_APIのURL
 #        self.API_url = "https://notify-api.line.me/api/notify"
-#        self.access_token = "lZGbtwZUGrxRQy3Df8vdRgdwwby8u9FuofvfwGE8qod"
+#        self.access_token = ""
 #        self.__headers = {"Authorization": "Bearer " + self.access_token}
 #
 #    def Sent_Message(self, message):
