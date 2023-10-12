@@ -35,6 +35,19 @@ handler = WebhookHandler(os.environ["CHANNEL_SECRET"])
 #
 #    return "OK"
 
+@app.route("/callback", methods=["GET", "POST"])
+def callback():
+    signature = request.headers["X-Line-Signature"]
+    body = request.get_data(as_text=True)
+    app.logger.info("Request body: " + body)
+
+    try:
+        handler.handle(body, signature)
+    except InvalidSignatureError:  # as e:を消した！
+        abort(400)
+
+    return "OK"
+
 
 locale.setlocale(locale.LC_TIME, "ja_JP.UTF-8")
 Today = datetime.datetime.now()
@@ -53,7 +66,7 @@ def rimind_punch_in():
         line_bot_api.push_message(user_id, TextSendMessage(text=message))
 
     elif week_num == 1:
-        message = "おはようございます！今日は火曜日です。出勤登録をお願いします"  # 動作確認用。動作OK！print(rimind_punch_in())ではこのメッセージのみ出せた
+        message = "おはようございます！今日は火曜日です。出勤登録をお願いします"
         user_id = os.environ["USER_ID"]
         line_bot_api.push_message(user_id, TextSendMessage(text=message))
 
@@ -63,12 +76,12 @@ def rimind_punch_in():
         line_bot_api.push_message(user_id, TextSendMessage(text=message))
 
     elif week_num == 3:
-        message = "おはようございます！今日は木曜日です。出勤登録をお願いします"  # 動作確認用。動作OK！print(rimind_punch_in())ではこのメッセージのみ出せた
+        message = "おはようございます！今日は木曜日です。出勤登録をお願いします"
         user_id = os.environ["USER_ID"]
         line_bot_api.push_message(user_id, TextSendMessage(text=message))
 
     elif week_num == 4:
-        message = "おはようございます！今日は金曜日です。出勤登録をお願いします"  # 動作確認用。動作OK！print(rimind_punch_in())ではこのメッセージのみ出せた
+        message = "おはようございます！今日は金曜日です。出勤登録をお願いします"
         user_id = os.environ["USER_ID"]
         line_bot_api.push_message(user_id, TextSendMessage(text=message))
 
@@ -87,7 +100,7 @@ if __name__ == "__main__":
     schedule.every().tuesday.at("08:30").do(rimind_punch_in)
     schedule.every().wednesday.at("08:30").do(rimind_punch_in)
     schedule.every().thursday.at("08:30").do(rimind_punch_in)
-    schedule.every().friday.at("06:13").do(rimind_punch_in)
+    schedule.every().friday.at("06:27").do(rimind_punch_in)
 
     while True:
         schedule.run_pending()
