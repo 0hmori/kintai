@@ -5,9 +5,12 @@ import locale
 import time
 
 
+import os
+
+
 def send_line_notify(notification_message):
+    line_notify_token = LineNotifyToken(os.environ["Line_Notify_Token"])
     # LINEに通知する
-    line_notify_token = "lZGbtwZUGrxRQy3Df8vdRgdwwby8u9FuofvfwGE8qod"
     line_notify_api = "https://notify-api.line.me/api/notify"
     headers = {"Authorization": f"Bearer {line_notify_token}"}
     data = {"message": "\n" + notification_message}
@@ -46,7 +49,7 @@ def rimind_punch_in():
     if week_num == 0:
         message = "おはようございます！今日は月曜日です。出勤登録をお願いします"
         send_line_notify(message)
-        #LINE_Notify.Sent_Message(message)
+        # LINE_Notify.Sent_Message(message)
 
     elif week_num == 1:
         message = "おはようございます！今日は火曜日です。出勤登録をお願いします"  # 動作確認用。動作OK！print(rimind_punch_in())ではこのメッセージのみ出せた
