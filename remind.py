@@ -35,7 +35,6 @@ w_list = ["月曜日", "火曜日", "水曜日", "木曜日", "金曜日", "土�
 app = Flask(__name__)
 
 
-# @app.route("/push_sample")
 def push_sample():
     """プッシュメッセージを送る"""
     user_id = os.environ["USER_ID"]
@@ -47,7 +46,6 @@ def push_sample():
 # rimind_punch_in関数のなかに、LINEに送るコードを入れた。メッセージ送られず
 
 
-# @app.route("/rimind_punch_in")
 def rimind_punch_in():
     if week_num == 0:
         message = "おはようございます！今日は月曜日です。出勤登録をお願いします"
@@ -90,7 +88,7 @@ def rimind_punch_in():
 
 
 if __name__ == "__main__":
-    schedule.every().friday.at("21:15").do(rimind_punch_in)
+    schedule.every().saturday.do(rimind_punch_in)
     schedule.every().saturday.at("05:50").do(rimind_punch_in)
 
     flask_thread = threading.Thread(target=app.run, kwargs={'debug': False})
@@ -101,15 +99,11 @@ if __name__ == "__main__":
         time.sleep(1)
 
 
-#
+
 # if __name__ == "__main__":
 #    schedule.every().monday.at("08:30").do(rimind_punch_in)
 #    schedule.every().tuesday.at("08:30").do(rimind_punch_in)
 #    schedule.every().wednesday.at("08:30").do(rimind_punch_in)
 #    schedule.every().thursday.at("08:30").do(rimind_punch_in)
 #    schedule.every().friday.at("06:55").do(rimind_punch_in)
-#
-#    while True:
-#        schedule.run_pending()
-#        time.sleep(1)
-#
+
