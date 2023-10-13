@@ -1,17 +1,15 @@
-# import pandas as pd
 import datetime
 from datetime import timedelta
 from datetime import timezone
 
-# from oauth2client.service_account import ServiceAccountCredentials
 import schedule
 
 
 import os
-from flask import Flask, request, abort
+from flask import Flask
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
-from linebot.models import MessageEvent, TextMessage, TextSendMessage
+from linebot.models import TextSendMessage
 from dotenv import load_dotenv
 import time
 import locale
@@ -88,7 +86,7 @@ def rimind_punch_in():
 
 
 if __name__ == "__main__":
-    schedule.every().friday.at("20:32").do(rimind_punch_in)
+    schedule.every().friday.at("20:40").do(rimind_punch_in)
 
     flask_thread = threading.Thread(target=app.run, kwargs={'debug': False})
     flask_thread.start()
@@ -97,10 +95,7 @@ if __name__ == "__main__":
         schedule.run_pending()
         time.sleep(1)
 
-# if __name__ == "__main__":
-#    port = int(os.getenv("PORT", 5000))
-#    app.run(host="0.0.0.0", port=port)
-#
+
 #
 # if __name__ == "__main__":
 #    schedule.every().monday.at("08:30").do(rimind_punch_in)
