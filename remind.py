@@ -75,6 +75,10 @@ def rimind_punch_in():
         user_id = os.environ["USER_ID"]
         line_bot_api.push_message(user_id, TextSendMessage(text=message))
 
+    elif week_num == 5:  # テスト用
+        message = "おはようございます！今日は土曜日です。出勤登録をお願いします"
+        user_id = os.environ["USER_ID"]
+        line_bot_api.push_message(user_id, TextSendMessage(text=message))
     else:
         pass
 
@@ -87,9 +91,10 @@ def rimind_punch_in():
 
 if __name__ == "__main__":
     schedule.every().friday.at("21:15").do(rimind_punch_in)
+    schedule.every().saturday.at("05:50").do(rimind_punch_in)
 
-#    flask_thread = threading.Thread(target=app.run, kwargs={'debug': False})
-#    flask_thread.start()
+    flask_thread = threading.Thread(target=app.run, kwargs={'debug': False})
+    flask_thread.start()
 
     while True:
         schedule.run_pending()
