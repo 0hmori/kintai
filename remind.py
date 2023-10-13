@@ -93,8 +93,8 @@ if __name__ == "__main__":
     schedule.every().minute.at(":32").do(rimind_punch_in)
     schedule.every().saturday.at("06:37").do(rimind_punch_in)
 
-    flask_thread = threading.Thread(target=app.run, kwargs={"debug": False})
-    flask_thread.start()
+#    flask_thread = threading.Thread(target=app.run, kwargs={"debug": False})
+#    flask_thread.start()
 
     while True:
         schedule.run_pending()
