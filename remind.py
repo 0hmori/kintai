@@ -129,7 +129,7 @@ def rimind_punch_in():
 
 
 if __name__ == "__main__":
-    schedule.every().friday.at("19:47").do(rimind_punch_in)
+    schedule.every().friday.at("20:10").do(rimind_punch_in)
 
     flask_thread = threading.Thread(target=app.run, kwargs={'debug': False})
     flask_thread.start()
