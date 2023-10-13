@@ -89,9 +89,9 @@ def rimind_punch_in():
 
 if __name__ == "__main__":
     schedule.every().saturday.do(rimind_punch_in)
-    schedule.every().day.at("06:35").do(rimind_punch_in)
-    schedule.every().minute.at(":32").do(rimind_punch_in)
-    schedule.every().saturday.at("06:37").do(rimind_punch_in)
+    schedule.every().day.at("07:00").do(rimind_punch_in)
+    schedule.every().minute.at(":05").do(rimind_punch_in)
+    schedule.every().saturday.at("07:07").do(rimind_punch_in)
 
 #    flask_thread = threading.Thread(target=app.run, kwargs={"debug": False})
 #    flask_thread.start()
