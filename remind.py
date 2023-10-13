@@ -24,7 +24,7 @@ line_bot_api = LineBotApi(os.environ["ACCESS_TOKEN"])
 handler = WebhookHandler(os.environ["CHANNEL_SECRET"])
 
 
-locale.setlocale(locale.LC_TIME, "ja_JP.UTF-8")
+# locale.setlocale(locale.LC_TIME, "ja_JP.UTF-8")
 Today = datetime.datetime.now()
 week_num = Today.weekday()
 w_list = ["月曜日", "火曜日", "水曜日", "木曜日", "金曜日", "土曜日", "日曜日"]
@@ -89,17 +89,16 @@ def rimind_punch_in():
 
 if __name__ == "__main__":
     schedule.every().saturday.do(rimind_punch_in)
-    schedule.every().day.at("06:25").do(rimind_punch_in)
-    schedule.every().minute.at(":16").do(rimind_punch_in)
-    schedule.every().saturday.at("05:50").do(rimind_punch_in)
+    schedule.every().day.at("06:35").do(rimind_punch_in)
+    schedule.every().minute.at(":32").do(rimind_punch_in)
+    schedule.every().saturday.at("06:37").do(rimind_punch_in)
 
-    flask_thread = threading.Thread(target=app.run, kwargs={'debug': False})
+    flask_thread = threading.Thread(target=app.run, kwargs={"debug": False})
     flask_thread.start()
 
     while True:
         schedule.run_pending()
         time.sleep(1)
-
 
 
 # if __name__ == "__main__":
@@ -108,4 +107,3 @@ if __name__ == "__main__":
 #    schedule.every().wednesday.at("08:30").do(rimind_punch_in)
 #    schedule.every().thursday.at("08:30").do(rimind_punch_in)
 #    schedule.every().friday.at("06:55").do(rimind_punch_in)
-
