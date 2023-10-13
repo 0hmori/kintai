@@ -89,10 +89,11 @@ def rimind_punch_in():
 
 if __name__ == "__main__":
     schedule.every().saturday.do(rimind_punch_in)
+    schedule.every().minute.at(":17").do(rimind_punch_in)
     schedule.every().saturday.at("05:50").do(rimind_punch_in)
 
-#    flask_thread = threading.Thread(target=app.run, kwargs={'debug': False})
-#    flask_thread.start()
+    flask_thread = threading.Thread(target=app.run, kwargs={'debug': False})
+    flask_thread.start()
 
     while True:
         schedule.run_pending()
