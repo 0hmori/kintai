@@ -15,6 +15,7 @@ from linebot.models import MessageEvent, TextMessage, TextSendMessage
 from dotenv import load_dotenv
 import time
 import locale
+import threading
 
 JST = timezone(timedelta(hours=+9), "JST")
 
@@ -28,12 +29,12 @@ handler = WebhookHandler(os.environ["CHANNEL_SECRET"])
 
 
 # @app.route("/push_sample")
-# def push_sample():
-#    """プッシュメッセージを送る"""
-#    user_id = os.environ["USER_ID"]
-#    line_bot_api.push_message(user_id, TextSendMessage(text="Hello,world"))
-#
-#    return "OK"
+def push_sample():
+    """プッシュメッセージを送る"""
+    user_id = os.environ["USER_ID"]
+    line_bot_api.push_message(user_id, TextSendMessage(text="Hello,world"))
+
+    return "OK"
 
 
 # @app.route("/callback", methods=["GET", "POST"])
@@ -60,85 +61,96 @@ w_list = ["月曜日", "火曜日", "水曜日", "木曜日", "金曜日", "土�
 
 # rimind_punch_in関数のなかに、LINEに送るコードを入れた。メッセージ送られず↓
 
+
 # @app.route("/rimind_punch_in")
-# def rimind_punch_in():
-#    if week_num == 0:
-#        message = "おはようございます！今日は月曜日です。出勤登録をお願いします"
-#        # LINE_Notify.Sent_Message(message)
-#        user_id = os.environ["USER_ID"]
-#        line_bot_api.push_message(user_id, TextSendMessage(text=message))
-#
-#    elif week_num == 1:
-#        message = "おはようございます！今日は火曜日です。出勤登録をお願いします"
-#        user_id = os.environ["USER_ID"]
-#        line_bot_api.push_message(user_id, TextSendMessage(text=message))
-#
-#    elif week_num == 2:
-#        message = "おはようございます！今日は水曜日です。出勤登録をお願いします"  # 動作確認用。動作OK！print(rimind_punch_in())ではこのメッセージのみ出せた
-#        user_id = os.environ["USER_ID"]
-#        line_bot_api.push_message(user_id, TextSendMessage(text=message))
-#
-#    elif week_num == 3:
-#        message = "おはようございます！今日は木曜日です。出勤登録をお願いします"
-#        user_id = os.environ["USER_ID"]
-#        line_bot_api.push_message(user_id, TextSendMessage(text=message))
-#
-#    elif week_num == 4:
-#        message = "おはようございます！今日は金曜日です。出勤登録をお願いします"
-#        user_id = os.environ["USER_ID"]
-#        line_bot_api.push_message(user_id, TextSendMessage(text=message))
-#
-#    else:
-#        pass
-#
-#    # print(w_list[week_num], message) 実行OK
-#    return message  # なんで赤波線が出るのか…
+def rimind_punch_in():
+    if week_num == 0:
+        message = "おはようございます！今日は月曜日です。出勤登録をお願いします"
+        # LINE_Notify.Sent_Message(message)
+        user_id = os.environ["USER_ID"]
+        line_bot_api.push_message(user_id, TextSendMessage(text=message))
+
+    elif week_num == 1:
+        message = "おはようございます！今日は火曜日です。出勤登録をお願いします"
+        user_id = os.environ["USER_ID"]
+        line_bot_api.push_message(user_id, TextSendMessage(text=message))
+
+    elif week_num == 2:
+        message = "おはようございます！今日は水曜日です。出勤登録をお願いします"  # 動作確認用。動作OK！print(rimind_punch_in())ではこのメッセージのみ出せた
+        user_id = os.environ["USER_ID"]
+        line_bot_api.push_message(user_id, TextSendMessage(text=message))
+
+    elif week_num == 3:
+        message = "おはようございます！今日は木曜日です。出勤登録をお願いします"
+        user_id = os.environ["USER_ID"]
+        line_bot_api.push_message(user_id, TextSendMessage(text=message))
+
+    elif week_num == 4:
+        message = "おはようございます！今日は金曜日です。出勤登録をお願いします"
+        user_id = os.environ["USER_ID"]
+        line_bot_api.push_message(user_id, TextSendMessage(text=message))
+
+    else:
+        pass
+
+    # print(w_list[week_num], message) 実行OK
+    return message  # なんで赤波線が出るのか…
 
 
 # rimind_punch_in()  # 動作はOK！
 
 
 # push_sample()にrimind_punch_in関数を入れた。動作せず
-def rimind_punch_in():
-    if week_num == 0:
-        message = "おはようございます！今日は月曜日です。出勤登録をお願いします"
-        # LINE_Notify.Sent_Message(message)
-    elif week_num == 1:
-        message = "おはようございます！今日は火曜日です。出勤登録をお願いします"
-    elif week_num == 2:
-        message = "おはようございます！今日は水曜日です。出勤登録をお願いします"  # 動作確認用。動作OK！print(rimind_punch_in())ではこのメッセージのみ出せた
-    elif week_num == 3:
-        message = "おはようございます！今日は木曜日です。出勤登録をお願いします"
-    elif week_num == 4:
-        message = "おはようございます！今日は金曜日です。出勤登録をお願いします"
-    else:
-        pass
-    # print(w_list[week_num], message) 実行OK
-    return message  # なんで赤波線が出るのか…
+# def rimind_punch_in():
+#    if week_num == 0:
+#        message = "おはようございます！今日は月曜日です。出勤登録をお願いします"
+#        # LINE_Notify.Sent_Message(message)
+#    elif week_num == 1:
+#        message = "おはようございます！今日は火曜日です。出勤登録をお願いします"
+#    elif week_num == 2:
+#        message = "おはようございます！今日は水曜日です。出勤登録をお願いします"  # 動作確認用。動作OK！print(rimind_punch_in())ではこのメッセージのみ出せた
+#    elif week_num == 3:
+#        message = "おはようございます！今日は木曜日です。出勤登録をお願いします"
+#    elif week_num == 4:
+#        message = "おはようございます！今日は金曜日です。出勤登録をお願いします"
+#    else:
+#        pass
+#    # print(w_list[week_num], message) 実行OK
+#    return message  # なんで赤波線が出るのか…
 
 
-@app.route("/push_sample")
-def push_sample():
-    """プッシュメッセージを送る"""
-    user_id = os.environ["USER_ID"]
-    line_bot_api.push_message(user_id, TextSendMessage(rimind_punch_in()))
-
-    return "OK"
-
-
-
-if __name__ == "__main__":
-    port = int(os.getenv("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
+# @app.route("/push_sample")
+# def push_sample():
+#    """プッシュメッセージを送る"""
+#    user_id = os.environ["USER_ID"]
+#    line_bot_api.push_message(user_id, TextSendMessage(rimind_punch_in()))
+#
+#    return "OK"
 
 
 if __name__ == "__main__":
-    schedule.every().monday.at("08:30").do(rimind_punch_in)
-    schedule.every().tuesday.at("08:30").do(rimind_punch_in)
-    schedule.every().wednesday.at("08:30").do(rimind_punch_in)
-    schedule.every().thursday.at("08:30").do(rimind_punch_in)
-    schedule.every().friday.at("06:55").do(rimind_punch_in)
+    schedule.every().friday.at("19:47").do(rimind_punch_in)
+
+    flask_thread = threading.Thread(target=app.run, kwargs={'debug': False})
+    flask_thread.start()
 
     while True:
         schedule.run_pending()
         time.sleep(1)
+
+#if __name__ == "__main__":
+#    port = int(os.getenv("PORT", 5000))
+#    app.run(host="0.0.0.0", port=port)
+#
+#
+#if __name__ == "__main__":
+#    schedule.every().monday.at("08:30").do(rimind_punch_in)
+#    schedule.every().tuesday.at("08:30").do(rimind_punch_in)
+#    schedule.every().wednesday.at("08:30").do(rimind_punch_in)
+#    schedule.every().thursday.at("08:30").do(rimind_punch_in)
+#    schedule.every().friday.at("06:55").do(rimind_punch_in)
+#
+#    while True:
+#        schedule.run_pending()
+#        time.sleep(1)
+#
