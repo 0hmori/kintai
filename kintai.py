@@ -15,13 +15,21 @@ def auth(userid):
     SP_SCOPE = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
 
     SP_SHEET_KEY = "1yrOkKh-vKTkRagXXGdHtFKG0TCfsOsrPTEssGVCVTFc"
-    SP_SHEET = userid
 
     credentials = ServiceAccountCredentials.from_json_keyfile_name(SP_CREDENTIAL_FILE, SP_SCOPE)
     gc = gspread.authorize(credentials)
+    ss = gc.open_by_key(SP_SHEET_KEY)
 
-    worksheet = gc.open_by_key(SP_SHEET_KEY).worksheet(SP_SHEET)
+    worksheet = find_or_new_sheet(ss, userid)
+
     return worksheet
+
+
+def find_or_new_sheet(ss, sheettitle):
+    for sheet in ss.worksheets():
+        if sheet.title == sheettitle:
+            return ss.worksheet(sheettitle)
+    return ss.add_worksheet(sheettitle, 100, 3)
 
 
 def punch_in(userid):  # 出勤
