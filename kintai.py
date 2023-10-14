@@ -25,11 +25,23 @@ def auth(userid):
     return worksheet
 
 
-def find_or_new_sheet(ss, sheettitle):
+def find_or_new_sheet(ss, userid):
+    sheettitle = get_title_by_userid(userid)
+
     for sheet in ss.worksheets():
         if sheet.title == sheettitle:
             return ss.worksheet(sheettitle)
     return ss.add_worksheet(sheettitle, 100, 3)
+
+
+# スプレッドシートのシート名を変えるには、現状ここに追加していく
+def get_title_by_userid(userid):
+    "useridからシート名を返す関数"
+    sheet_names = {
+        "U3457ef080344dc6ce7d0bf86a240108d": "オオモリ",
+    }
+    sheettitle = sheet_names[userid]
+    return sheettitle
 
 
 def punch_in(userid):  # 出勤
