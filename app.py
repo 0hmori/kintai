@@ -58,19 +58,23 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text="おはようございます！出勤登録完了しました！"))
 
     elif event.message.text == "退勤":
-        punch_out()
+        userid = event.source.userId
+        punch_out(userid)
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text="退勤登録完了しました！今日も一日おつかれさまでした"))
 
     elif event.message.text == "遅刻":
-        late()
+        userid = event.source.userId
+        late(userid)
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text="おつかれさまです！出勤登録完了しました！"))
 
     elif event.message.text == "早退":
-        leave_early()
+        userid = event.source.userId
+        leave_early(userid)
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text="退勤登録完了しました！おつかれさまでした"))
 
     elif event.message.text == "お休みします":
-        rest()
+        userid = event.source.userId
+        rest(userid)
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text="お休みの登録が完了しました！よいリフレッシュを"))
 
     elif event.message.text == "修正":
@@ -85,14 +89,16 @@ def handle_message(event):
         )
 
     elif event.message.text == "出勤を修正":
-        delete()
+        userid = event.source.userId
+        delete(userid)
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text="もう一度、正しい勤怠の登録をおねがいします！"))
 
     elif event.message.text == "退勤を修正":
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text="退勤時にもう一度退勤の登録をおねがいします！"))
 
     elif event.message.text == "お休みを修正":
-        delete()
+        userid = event.source.userId
+        delete(userid)
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text="もう一度、正しい勤怠の登録をおねがいします！"))
 
     else:

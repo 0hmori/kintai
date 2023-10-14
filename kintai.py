@@ -51,8 +51,8 @@ def punch_in(userid):  # 出勤
 # punch_in()  # 動作確認OK！
 
 
-def late():  # 遅刻
-    worksheet = auth()
+def late(userid):  # 遅刻
+    worksheet = auth(userid)
 
     df1 = pd.DataFrame(worksheet.get_all_records())  # get_all_values()だと動作できず
     # print(df1)
@@ -78,8 +78,8 @@ def late():  # 遅刻
 # late()  # 動作確認OK！
 
 
-def punch_out():  # 退勤時間
-    worksheet = auth()
+def punch_out(userid):  # 退勤時間
+    worksheet = auth(userid)
     df1 = pd.DataFrame(worksheet.get_all_records())
 
     # timestamp = datetime.now(JST)
@@ -96,8 +96,8 @@ def punch_out():  # 退勤時間
 # punch_out()  # 動作確認OK！
 
 
-def leave_early():  # 早退
-    worksheet = auth()
+def leave_early(userid):  # 早退
+    worksheet = auth(userid)
     df1 = pd.DataFrame(worksheet.get_all_records())
 
     timestamp = datetime.now(JST)
@@ -114,8 +114,8 @@ def leave_early():  # 早退
 # leave_early()  # 動作確認OK！
 
 
-def rest():  # 休暇
-    worksheet = auth()
+def rest(userid):  # 休暇
+    worksheet = auth(userid)
     df1 = pd.DataFrame(worksheet.get_all_records())
     # print(df1)
 
@@ -138,8 +138,8 @@ def rest():  # 休暇
 # rest() #動作確認OK！
 
 
-def delete():  # 修正として最終行を削除。出勤時間ミス、休暇ミス時に使う。退勤時間は勝手に更新されるので使わない
-    worksheet = auth()
+def delete(userid):  # 修正として最終行を削除。出勤時間ミス、休暇ミス時に使う。退勤時間は勝手に更新されるので使わない
+    worksheet = auth(userid)
 
     row_count = len(worksheet.get_all_values())
     # print("最終行番号:", row_count)
