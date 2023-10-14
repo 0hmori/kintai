@@ -54,7 +54,8 @@ def callback():
 def handle_message(event):
     print(event.message.text)
     print(event.source)  # {"type": "user", "userId": "U3457ef080344dc6ce7d0bf86a240108d"}
-    print(type(event.source))  #
+    print(event.source.user_id)  # {"type": "user", "userId": "U3457ef080344dc6ce7d0bf86a240108d"}
+    print(type(event.source))  # 
 
     if event.message.text == "出勤":
         userid = event.source.userId
