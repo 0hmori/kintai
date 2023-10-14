@@ -10,12 +10,12 @@ JST = timezone(timedelta(hours=+9), "JST")
 
 
 # 認証の流れ
-def auth():
+def auth(userid):
     SP_CREDENTIAL_FILE = "secret.json"
     SP_SCOPE = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
 
     SP_SHEET_KEY = "1yrOkKh-vKTkRagXXGdHtFKG0TCfsOsrPTEssGVCVTFc"
-    SP_SHEET = "timesheet"
+    SP_SHEET = userid
 
     credentials = ServiceAccountCredentials.from_json_keyfile_name(SP_CREDENTIAL_FILE, SP_SCOPE)
     gc = gspread.authorize(credentials)
@@ -24,8 +24,8 @@ def auth():
     return worksheet
 
 
-def punch_in():  # 出勤
-    worksheet = auth()
+def punch_in(userid):  # 出勤
+    worksheet = auth(userid)
 
     df1 = pd.DataFrame(worksheet.get_all_records())  # get_all_values()だと動作できず
     # print(df1)
