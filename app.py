@@ -53,6 +53,7 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     if event.message.text == "出勤":
+        print(event.source)
         userid = event.source.userId
         punch_in(userid)
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text="おはようございます！出勤登録完了しました！"))
