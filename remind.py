@@ -153,15 +153,15 @@ if __name__ == "__main__":
     schedule.every().thursday.at("08:30").do(rimind_punch_in)
     schedule.every().friday.at("08:30").do(rimind_punch_in)
     schedule.every().saturday.at("17:50").do(rimind_punch_in)  # 動作OK！10/14
-    schedule.every().sunday.at("11:57").do(rimind_punch_in)
+    schedule.every().sunday.at("11:43").do(rimind_punch_in)
 
     schedule.every().monday.at("17:30").do(rimind_punch_out)
     schedule.every().tuesday.at("17:30").do(rimind_punch_out)
     schedule.every().wednesday.at("17:30").do(rimind_punch_out)
     schedule.every().thursday.at("17:30").do(rimind_punch_out)
     schedule.every().friday.at("17:30").do(rimind_punch_out)
-    schedule.every().saturday.at("17:56").do(rimind_punch_out)  # 動作OK！10/14
-    schedule.every().sunday.at("16:44").do(rimind_punch_out)
+    schedule.every().saturday.at("17:57").do(rimind_punch_out)  # 動作OK！10/14
+    schedule.every().sunday.at("11:46").do(rimind_punch_out)
 
     while True:
         schedule.run_pending()
